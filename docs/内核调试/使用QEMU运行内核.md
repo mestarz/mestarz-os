@@ -1,56 +1,10 @@
-## 1 QEMU运行内核
-### 1.1 编译内核
-#### 1.1.1 获取内核源码
-官方网站下载速度太慢，使用如下地址下载
-> 第2位是偶数表示当前版本是稳定版
-> 第2位是奇数表示当前版本是开发版，是内核开发过程中的一个快照
-> 例如：5.8.xx是稳定版，5.9.xx是开发版
-> 建议使用稳定版进行实验
-
-```shell
-http://ftp.sjtu.edu.cn/sites/ftp.kernel.org/pub/linux/kernel/
-```
-#### 1.1.2 配置gcc版本
-安装需要的版本
-```shell
-sudo apt install gcc-7 gcc-7-multilib g++-7 g++-7-multilib
-sudo apt install gcc-9 gcc-9-multilib g++-9 g++-9-multilib
-```
-设置优先级
-```shell
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9
-```
-切换gcc版本
-```shell
-sudo update-alternatives --config gcc
-```
-
-
-#### 1.1.3 编译内核源码
-根据环境创建默认配置
-```shell
-make defconfig
-```
-编译程序
-```shell
-make   #可以使用make > /dev/null去掉返回信息
-```
-编译内核镜像
-```shell
-make bzImage
-```
-编译内核模块
-```shell
-make modules
-```
-### 1.2 安装qemu
+### 1 安装qemu
 ```shell
 sudo apt install qemu
 sudo apt install qemu-system-x86_64
 ```
-### 1.3 制作磁盘镜像
-#### 1.3.1 创建磁盘
+### 2 制作磁盘镜像
+#### 2.1 创建磁盘
 使用 `qemu-img` 创建一个512M的磁盘镜像文件      
 ```shell
 qemu-img create -f raw disk.raw 512M
@@ -59,18 +13,18 @@ qemu-img create -f raw disk.raw 512M
 ```shell
 mkfs -t ext4 ./disk.raw
 ```
-#### 1.3.2 挂载磁盘镜像
+#### 2.2 挂载磁盘镜像
 使用 `mount` 以loop方式将磁盘文件挂载到一个目录上
 ```shell
 sudo mount -o loop ./disk.raw ./img
 ```
-#### 1.3.3 安装内核模块
+#### 2.3 安装内核模块
 在linux源码目录下运行
 ```shell
 sudo make modules_install \  #安装内核模块
 INSTALL_MOD_PATH=./img		   #指定安装路径
 ```
-#### 1.3.4 配置init程序
+#### 2.4 配置init程序
 参考busybox[代码文档](https://git.busybox.net/busybox/tree/examples/inittab)可知，init启动后会扫描 `/etc/inittab` 配置文件，这个配置文件决定了init程序的行为。而busybox init在没有 `/etc/inittab` 文件的情况下也能工作，因为它有默认行为。它的默认行为相当于如下配置：
 ```shell
 ::sysinit:/etc/init.d/rcS
@@ -111,8 +65,8 @@ sudo chmod 777 rcS
 ```shell
 #!/bin/sh
 ```
-### 1.4 制作init程序
-#### 1.4.1 编译busybox程序
+### 3 制作init程序
+#### 3.1 编译busybox程序
 下载busybox源码，进入源码目录，启用默认配置
 ```shell
 make defconfig
@@ -131,12 +85,12 @@ Settings --->
 ```shell
 make
 ```
-#### 1.4.2 安装busybox到磁盘镜像
+#### 3.2 安装busybox到磁盘镜像
 ```shell
 make CONFIG_PREFIX=./img \  #磁盘文件的挂载路径
 	install	
 ```
-### 1.5 qemu启动内核
+### 4 qemu启动内核
 ```shell
 qemu-system-x86_64 \
     -m 512M \																#指定内存大小
@@ -145,7 +99,7 @@ qemu-system-x86_64 \
     -drive format=raw,file=./disk.raw \			#指定文件为磁盘
     -append "init=/linuxrc root=/dev/sda"		#内核启动参数
 ```
-### 1.6 挂载文件系统
+### 5 挂载文件系统
 创建/dev，/proc，/sys目录
 ```shell
 cd ./img
@@ -161,13 +115,6 @@ mount -t sysfs sysfs /sys
 ```
 
 
-## 2 GDB、KGDB调试内核
-qemu参数说明<br />`-S    freeze CPU at startup (use 'c' to start execution)` <br />`-s    shorthand for -gdb tcp::1234` <br />
-<br />
-
-## 3 树莓派运行内核
-> 参考网站：[https://blog.csdn.net/zxy131072/article/details/83545436](https://blog.csdn.net/zxy131072/article/details/83545436)
-> [https://codechina.csdn.net/?utm_source=csdn_toolbar](https://codechina.csdn.net/?utm_source=csdn_toolbar)
 
 
 
