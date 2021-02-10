@@ -26,10 +26,15 @@ plugins:
 - minify:
     minify_html: true
 nav:
-- Start:
+- 介绍:
   - index.md
+  - 介绍/内核结构介绍.md
+  - 介绍/源码浏览方法.md
+  - 介绍/相关工具介绍.md
 - 内核调试:
   - 内核调试/编译内核.md
   - 内核调试/使用QEMU运行内核.md
   - 内核调试/使用GDB调试内核.md
   - 内核调试/使用树莓派运行内核.md
+- 进程管理:
+  - 进程管理/进程生命周期.md
