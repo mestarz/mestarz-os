@@ -1,6 +1,9 @@
 site_name: Linux内核
 site_description: Linux内核
 site_author: mestarz
+site_url: https://mestarz.github.io/
+repo_name: mestarz/mestarz-os
+repo_url: https://github.com/mestarz/mestarz-os
 copyright: Copyright &copy; 2020-2021 mestarz
 theme:
   name: material
@@ -38,3 +41,42 @@ nav:
   - 内核调试/使用树莓派运行内核.md
 - 进程管理:
   - 进程管理/进程生命周期.md
+  - 进程管理/进程描述符.md
+  - 进程管理/进程状态.md
+markdown_extensions:
+- admonition
+- md_in_html
+- codehilite:
+    guess_lang: false
+- def_list
+- footnotes
+- meta
+- toc:
+    permalink: true
+- pymdownx.arithmatex
+- pymdownx.caret
+- pymdownx.critic
+- pymdownx.details
+- pymdownx.emoji:
+    emoji_index: !!python/name:materialx.emoji.twemoji ''
+    emoji_generator: !!python/name:materialx.emoji.to_svg ''
+- pymdownx.highlight
+- pymdownx.inlinehilite
+- pymdownx.keys
+- pymdownx.magiclink
+- pymdownx.mark
+- pymdownx.smartsymbols
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ''
+- pymdownx.tasklist:
+    custom_checkbox: true
+- pymdownx.tilde
+extra_javascript:
+- https://cdnjs.loli.net/ajax/libs/pangu/3.3.0/pangu.min.js
+- static/js/extra.js
+- https://cdnjs.loli.net/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML
+extra_css:
+- static/css/extra.css
