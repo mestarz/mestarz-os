@@ -43,6 +43,9 @@ nav:
   - 进程管理/进程生命周期.md
   - 进程管理/进程描述符.md
   - 进程管理/进程状态.md
+  - 进程管理/进程家族树.md
+  - 进程管理/进程创建.md
+  - 进程管理/进程终止.md
 markdown_extensions:
 - admonition
 - md_in_html
